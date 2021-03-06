@@ -21,6 +21,7 @@ public class ThreadClient implements Runnable {
 	private Socket client;
 	@SuppressWarnings("unused")
 	private int port;
+	private String path = "/";
 
 	public ThreadClient(Socket client) throws Exception {
 		super();
@@ -72,11 +73,20 @@ public class ThreadClient implements Runnable {
 		FtpManage m = new ManageFactory().managesMap().get(cmd.getMessage()); // We use the FtpManage corresponding to
 																				// the command
 		try {
-			return m.handle(cmd);
+			return m.handle(cmd,this);
 		} catch (IOException e) {
 			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
 		} catch (NullPointerException e) {
 			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
 		}
 	}
+	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 }

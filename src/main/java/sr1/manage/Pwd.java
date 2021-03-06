@@ -6,12 +6,11 @@ import sr1.FtpCommand;
 import sr1.FtpResponse;
 import sr1.ThreadClient;
 
-public class List extends FtpManage {
+public class Pwd extends FtpManage {
 
 	@Override
 	public FtpResponse handle(FtpCommand command, ThreadClient t) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new FtpResponse(257,"\""+t.getPath()+"\" is the current directory.");
 	}
 
 }

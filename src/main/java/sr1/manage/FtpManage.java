@@ -1,7 +1,7 @@
 package sr1.manage;
 
 import java.io.*;
-import sr1.FtpResponse;
+
 import sr1.*;
 
 public abstract class FtpManage{
@@ -15,8 +15,9 @@ public abstract class FtpManage{
 	 * in each FtpManage to handle each command received.
 	 * 
 	 * @param command a command to handle
+	 * @param threadClient 
 	 * @return FtpReply the good response
 	 * @throws IOException in case of an error
 	 */
-	public abstract FtpResponse handle(FtpCommand command) throws IOException;
+	public abstract FtpResponse handle(FtpCommand command, ThreadClient threadClient) throws IOException;
 }

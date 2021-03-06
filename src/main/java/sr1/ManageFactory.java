@@ -16,6 +16,9 @@ public class ManageFactory {
 		manages.put("PASV", new Pasv());
 		manages.put("USER", new User());
 		manages.put("PASS", new Pass());
+		manages.put("SYST", new Syst());
+		manages.put("FEAT", new Feat());
+		manages.put("PWD", new Pwd());
 	}
 	
 	public Map<String,FtpManage> managesMap () {

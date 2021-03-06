@@ -6,12 +6,11 @@ import sr1.FtpCommand;
 import sr1.FtpResponse;
 import sr1.ThreadClient;
 
-public class List extends FtpManage {
+public class Syst extends FtpManage {
 
 	@Override
 	public FtpResponse handle(FtpCommand command, ThreadClient t) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new FtpResponse(215, System.getProperty("os.name") + " " + System.getProperty("os.version"));
 	}
 
 }
