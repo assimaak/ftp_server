@@ -20,6 +20,8 @@ public class ManageFactory {
 		manages.put("FEAT", new Feat());
 		manages.put("PWD", new Pwd());
 		manages.put("TYPE", new Type());
+		manages.put("CWD", new Cwd());
+		manages.put("CDUP", new Cdup());
 	}
 	
 	public Map<String,FtpManage> managesMap () {

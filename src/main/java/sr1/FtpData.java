@@ -34,8 +34,8 @@ public class FtpData {
 	
 	public List<String> getFiles() throws IOException {
 		List<String> res = new ArrayList<String>();
-		Path dir = Paths.get(""+tc.getPath());
-		SimpleDateFormat date = new SimpleDateFormat("dd MM yyyy");
+		Path dir = Paths.get(tc.getPath());
+		SimpleDateFormat date = new SimpleDateFormat("MMM dd yyyy");
 		Stream<Path> files = Files.list(dir);
 		StringBuilder s = new StringBuilder();
 		files.forEach (p -> {
@@ -52,11 +52,12 @@ public class FtpData {
 			for (int i = 0 ; i<3 ; i++) { // Same rights for everyone
 				s.append(rights);
 			}
-			s.append("1 ftp ftp");
+			s.append("1 ftp ftp ");
 			s.append(f.length() + " ");
 			s.append(date.format(f.lastModified()) + " ");
 			s.append(f.getName() + "\r\n");	
 			res.add(s.toString());
+			System.out.println(s.toString());
 		});
 		return res;		
 	}
