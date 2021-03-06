@@ -1,5 +1,9 @@
 package sr1.manage;
 
+import java.io.*;
+import sr1.FtpResponse;
+import sr1.*;
+
 public abstract class FtpManage{
 
 	public FtpManage() {

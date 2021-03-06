@@ -41,7 +41,7 @@ public class FtpController {
 		}
 
 		String[] mots = line.split(" ");
-		if (mots.length > 1) {
+		if (mots.length > 1) { //Command with an argument (ex : CWD)
 			String param = mots[1];
 			for (int i = 2; i < mots.length; i++) {
 				param += " " + mots[i];

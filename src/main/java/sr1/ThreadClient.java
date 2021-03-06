@@ -8,27 +8,24 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-
+import sr1.manage.FtpManage;
 
 /**
  * @author Nordine El ammari
  * @author Arthur Assima
  * 
- *         Connexion with an FTP client. 
- *         The thread will be executed when the server 
- *         receives a new client socket.
+ *         Connexion with an FTP client. The thread will be executed when the
+ *         server receives a new client socket.
  */
 public class ThreadClient implements Runnable {
 	private Socket client;
 	@SuppressWarnings("unused")
 	private int port;
-	
 
-	public ThreadClient(Socket client) throws Exception{
+	public ThreadClient(Socket client) throws Exception {
 		super();
 		this.client = client;
-		
-	
+
 	}
 
 	@Override
@@ -39,7 +36,7 @@ public class ThreadClient implements Runnable {
 						new InputStreamReader(this.client.getInputStream(), StandardCharsets.UTF_8));) {
 
 			FtpController controller = new FtpController(controlOut, controlIn);
-			controller.sendResponse(new FtpResponse(220 , "Welcome everyone"));
+			controller.sendResponse(new FtpResponse(220, "Welcome everyone"));
 			boolean isRunning = true;
 			while (isRunning) {
 				// Waits for a command
@@ -70,8 +67,16 @@ public class ThreadClient implements Runnable {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public FtpResponse execute(FtpCommand cmd) {
-		return null;
+
+	public FtpResponse execute(FtpCommand cmd) throws NullPointerException {
+		FtpManage m = new ManageFactory().managesMap().get(cmd.getMessage()); // We use the FtpManage corresponding to
+																				// the command
+		try {
+			return m.handle(cmd);
+		} catch (IOException e) {
+			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
+		} catch (NullPointerException e) {
+			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
+		}
 	}
 }
