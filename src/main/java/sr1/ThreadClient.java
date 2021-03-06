@@ -27,6 +27,7 @@ public class ThreadClient implements Runnable {
 	private ServerSocket passive;
 	private FtpData data;
 	private FtpController controller;
+	private String filename;
 
 	public ThreadClient(Socket client) throws Exception {
 		super();
@@ -118,5 +119,19 @@ public class ThreadClient implements Runnable {
 	public FtpController getController() {
 		return controller;
 	}
+
+	public void setFilename(String name) {
+		this.filename=name;
+		
+	}
+
+	public String getFileName() {
+		return this.filename;
+	}
+	
+	public Socket getSocket() {
+		return this.client;
+	}
+	
 
 }

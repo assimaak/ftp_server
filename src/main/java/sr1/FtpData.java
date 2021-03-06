@@ -34,7 +34,7 @@ public class FtpData {
 	public List<String> getFiles() throws IOException {
 		List<String> res = new ArrayList<String>();
 		Path dir = Paths.get(tc.getPath());
-		SimpleDateFormat date = new SimpleDateFormat("MMM dd yyyy");
+		SimpleDateFormat date = new SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH); // To avoid special characters
 		Stream<Path> files = Files.list(dir);
 		files.forEach (p -> {
 			StringBuilder s = new StringBuilder();
@@ -59,6 +59,55 @@ public class FtpData {
 			//System.out.println(s.toString());
 		});
 		return res;		
+	}
+
+	public void uploadASCII(String name) throws IOException {
+		String path = tc.getPath() + "/" + name;
+		InputStream in = so.getInputStream();
+		BufferedReader readerData = new BufferedReader(new InputStreamReader(in));
+		Path p = Paths.get(path);
+		String line;
+		String content = "";
+		while ((line = readerData.readLine()) != null) {
+			content += line + "\r\n";
+
+		}
+		Files.writeString(p, content);
+		so.close();
+
+	}
+
+	public void uploadBinary(String name) throws IOException {
+		String path = tc.getPath() + "/" + name;
+		InputStream in = so.getInputStream();
+		Path p = Paths.get(path);
+		byte buf[] = in.readAllBytes();
+		Files.write(p, buf);
+		so.close();		
+	}
+
+	public void downloadASCII(String name) throws IOException {
+		String path = tc.getPath() + "/" + name;
+		File file = new File(path);
+
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		String line;
+		while ((line = in.readLine()) != null) {
+			printer.println(file);
+		}
+		so.close();
+
+	}
+
+	public void downloadBinary(String name) throws IOException {
+		String path = tc.getPath() + "/" + name;
+		Path p = Paths.get(path);
+		OutputStream out = so.getOutputStream();
+		byte[] data = Files.readAllBytes(p);
+		out.write(data);
+		out.flush();
+		so.close();
+		
 	}
 
 }

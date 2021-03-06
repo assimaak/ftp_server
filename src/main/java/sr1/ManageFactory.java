@@ -27,6 +27,9 @@ public class ManageFactory {
 		manages.put("MKD", new Mkd());
 		manages.put("RNFR", new Rnfr());
 		manages.put("RNTO", new Rnto());
+		manages.put("DELE", new Dele());
+		manages.put("RMD", new Rmd());
+		manages.put("STOR", new Stor());
 	}
 	
 	public Map<String,FtpManage> managesMap () {
