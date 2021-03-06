@@ -10,8 +10,14 @@ public class List extends FtpManage {
 
 	@Override
 	public FtpResponse handle(FtpCommand command, ThreadClient t) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			t.getController().sendResponse(new FtpResponse(150, "Here comes the directory listing."));
+			System.out.println("ba");
+			t.getData().listing();
+			return new FtpResponse(226, "Directory send ok.");
+		} catch (IOException e) {
+			return new FtpResponse(530, "Failed to send the directory.");
+		}
 	}
 
 }

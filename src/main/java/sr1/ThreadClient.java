@@ -25,6 +25,8 @@ public class ThreadClient implements Runnable {
 	private String path = "/";
 	private boolean type; //true = ASCII, false = BINARY
 	private ServerSocket passive;
+	private FtpData data;
+	private FtpController controller;
 
 	public ThreadClient(Socket client) throws Exception {
 		super();
@@ -40,7 +42,7 @@ public class ThreadClient implements Runnable {
 				BufferedReader controlIn = new BufferedReader(
 						new InputStreamReader(this.client.getInputStream(), StandardCharsets.UTF_8));) {
 
-			FtpController controller = new FtpController(controlOut, controlIn);
+			controller = new FtpController(controlOut, controlIn);
 			controller.sendResponse(new FtpResponse(220, "Welcome everyone"));
 			boolean isRunning = true;
 			while (isRunning) {
@@ -59,9 +61,8 @@ public class ThreadClient implements Runnable {
 				}
 				controller.sendResponse(response);
 				if (response.getMsg().contains("Entering passive mode")) {
-					System.out.println("pass");
 					Socket s = passive.accept();
-					new FtpData(s, this);
+					data = new FtpData(s, this);
 					continue;
 				}
 				if (command.getMessage().equals("QUIT")) { // quit command finishes the loop
@@ -108,6 +109,14 @@ public class ThreadClient implements Runnable {
 	
 	public void setPassive(ServerSocket s) {
 		this.passive = s;
+	}
+	
+	public FtpData getData() {
+		return data;
+	}
+
+	public FtpController getController() {
+		return controller;
 	}
 
 }
