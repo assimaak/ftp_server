@@ -22,10 +22,12 @@ public class ThreadClient implements Runnable {
 	@SuppressWarnings("unused")
 	private int port;
 	private String path = "/";
+	private boolean type; //true = ASCII, false = BINARY
 
 	public ThreadClient(Socket client) throws Exception {
 		super();
 		this.client = client;
+		this.type=true;
 
 	}
 
@@ -87,6 +89,14 @@ public class ThreadClient implements Runnable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public boolean getType() {
+		return type;
+	}
+
+	public void setType(boolean type) {
+		this.type = type;
 	}
 
 }
