@@ -22,6 +22,11 @@ public class ManageFactory {
 		manages.put("TYPE", new Type());
 		manages.put("CWD", new Cwd());
 		manages.put("CDUP", new Cdup());
+		manages.put("QUIT", new Quit());
+		manages.put("RETR", new Retr());
+		manages.put("MKD", new Mkd());
+		manages.put("RNFR", new Rnfr());
+		manages.put("RNTO", new Rnto());
 	}
 	
 	public Map<String,FtpManage> managesMap () {
