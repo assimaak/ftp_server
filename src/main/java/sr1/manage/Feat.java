@@ -10,7 +10,7 @@ public class Feat extends FtpManage {
 
 	@Override
 	public FtpResponse handle(FtpCommand command, ThreadClient t) throws IOException {
-		return new FtpResponse(211, "Features:");
+		return new FtpResponse(211, "Features:\r\n- Check the readme on GitLab\r\n211 End.");
 	}
 
 }

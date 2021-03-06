@@ -5,10 +5,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-import sr1.manage.FtpManage;
+import sr1.manage.*;
 
 /**
  * @author Nordine El ammari
@@ -23,6 +24,7 @@ public class ThreadClient implements Runnable {
 	private int port;
 	private String path = "/";
 	private boolean type; //true = ASCII, false = BINARY
+	private ServerSocket passive;
 
 	public ThreadClient(Socket client) throws Exception {
 		super();
@@ -56,7 +58,12 @@ public class ThreadClient implements Runnable {
 					continue;
 				}
 				controller.sendResponse(response);
-
+				if (response.getMsg().contains("Entering passive mode")) {
+					System.out.println("pass");
+					Socket s = passive.accept();
+					new FtpData(s, this);
+					continue;
+				}
 				if (command.getMessage().equals("QUIT")) { // quit command finishes the loop
 					isRunning = false;
 				}
@@ -75,7 +82,7 @@ public class ThreadClient implements Runnable {
 		FtpManage m = new ManageFactory().managesMap().get(cmd.getMessage()); // We use the FtpManage corresponding to
 																				// the command
 		try {
-			return m.handle(cmd,this);
+			return m.handle(cmd,this);			
 		} catch (IOException e) {
 			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
 		} catch (NullPointerException e) {
@@ -97,6 +104,10 @@ public class ThreadClient implements Runnable {
 
 	public void setType(boolean type) {
 		this.type = type;
+	}
+	
+	public void setPassive(ServerSocket s) {
+		this.passive = s;
 	}
 
 }
