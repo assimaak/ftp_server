@@ -25,6 +25,9 @@ L'objectif du projet est désormais de mettre en œuvre un serveur conforme au p
 - MKD
 - RNFR
 - RNTO
+- DELE
+- RMD
+- STOR
 
 # Utilisation 
 
@@ -35,8 +38,9 @@ mvn package
 puis
 
 ```code
-java -jar target/serverFTP-ftp.jar
+java -jar target/serverFTP-ftp.jar [port]
 ```
+[] : optionnel
 
 - géneration de la javadoc :
 
@@ -50,6 +54,7 @@ diagramme uml:
 
 ![](ftp.jpg)
 
+On dispose de plusieurs classes permettant de communiquer avec le client et d'un package contenant une classe abstraite permettant de traiter une commande avec des classes respectives pour chaque commande.
 
 ## Code Samples
 
