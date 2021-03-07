@@ -5,6 +5,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 
+/**
+ * @author ASSIMA Arthur
+ * @author EL AMMARI Nordine
+ * The Class FtpController.
+ */
 public class FtpController {
 	private BufferedWriter writer;
 	private BufferedReader reader;
@@ -18,7 +23,7 @@ public class FtpController {
 	/**
 	 * Sends an FTP response to the client through the controller.
 	 * 
-	 * @param the FTP response to send
+	 * @param response the FTP response to send
 	 * @throws IOException when a network error on write through socket
 	 */
 	public void sendResponse(FtpResponse response) throws IOException {

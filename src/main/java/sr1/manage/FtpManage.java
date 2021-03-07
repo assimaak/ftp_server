@@ -4,8 +4,17 @@ import java.io.*;
 
 import sr1.*;
 
+
+/**
+ * @author ASSIMA Arthur
+ * @author EL AMMARI Nordine
+ * The Class FtpManage.
+ */
 public abstract class FtpManage{
 
+	/**
+	 * Instantiates a new ftp manage.
+	 */
 	public FtpManage() {
 		super();
 	}
@@ -15,7 +24,7 @@ public abstract class FtpManage{
 	 * in each FtpManage to handle each command received.
 	 * 
 	 * @param command a command to handle
-	 * @param threadClient 
+	 * @param threadClient the thread dealing with the client
 	 * @return FtpReply the good response
 	 * @throws IOException in case of an error
 	 */

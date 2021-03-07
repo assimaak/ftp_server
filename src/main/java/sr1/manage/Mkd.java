@@ -9,8 +9,22 @@ import sr1.FtpResponse;
 import sr1.ThreadClient;
 import sr1.manage.FtpManage;
 
+
+/**
+ * @author ASSIMA Arthur
+ * @author EL AMMARI Nordine
+ * The Class Mkd.
+ */
 public class Mkd extends FtpManage {
 
+	/**
+	 * Handle.
+	 *
+	 * @param c the command
+	 * @param t the thread corresponding to the client
+	 * @return the ftp response
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	public FtpResponse handle(FtpCommand c, ThreadClient t) throws IOException {
 		try {

@@ -23,7 +23,7 @@ public class ThreadClient implements Runnable {
 	@SuppressWarnings("unused")
 	private int port;
 	private String path = "/";
-	private boolean type; //true = ASCII, false = BINARY
+	private boolean type; // true = ASCII, false = BINARY
 	private ServerSocket passive;
 	private FtpData data;
 	private FtpController controller;
@@ -32,10 +32,13 @@ public class ThreadClient implements Runnable {
 	public ThreadClient(Socket client) throws Exception {
 		super();
 		this.client = client;
-		this.type=true;
+		this.type = true;
 
 	}
 
+	/**
+	 * Runs the serverftp's communication.
+	 */
 	@Override
 	public void run() {
 		try (BufferedWriter controlOut = new BufferedWriter(
@@ -61,7 +64,8 @@ public class ThreadClient implements Runnable {
 					continue;
 				}
 				controller.sendResponse(response);
-				if (response.getMsg().contains("Entering passive mode")) {
+				if (response.getMsg().contains("Entering passive mode")) { // Opening a new socket and FtpData to send/
+																			// retrieve data
 					Socket s = passive.accept();
 					data = new FtpData(s, this);
 					continue;
@@ -74,64 +78,120 @@ public class ThreadClient implements Runnable {
 			// closing the client.
 			this.client.close();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
+	/**
+	 * Execute the command received by the server.
+	 *
+	 * @param cmd the command
+	 * @return the ftp response
+	 * @throws NullPointerException the null pointer exception
+	 */
 	public FtpResponse execute(FtpCommand cmd) throws NullPointerException {
 		FtpManage m = new ManageFactory().managesMap().get(cmd.getMessage()); // We use the FtpManage corresponding to
 																				// the command
 		try {
-			return m.handle(cmd,this);			
+			return m.handle(cmd, this);
 		} catch (IOException e) {
 			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
 		} catch (NullPointerException e) {
 			return new FtpResponse(500, "Error, your command is unrecognized/not implemented yet.");
 		}
 	}
-	
+
+	/**
+	 * Gets the current path.
+	 *
+	 * @return the path
+	 */
 	public String getPath() {
 		return path;
 	}
 
+	/**
+	 * Sets the current path.
+	 *
+	 * @param path the new path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 
+	/**
+	 * Gets the type of the data (ascii or binary).
+	 *
+	 * @return the type
+	 */
 	public boolean getType() {
 		return type;
 	}
 
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
 	public void setType(boolean type) {
 		this.type = type;
 	}
-	
+
+	/**
+	 * Sets the passive server socket.
+	 *
+	 * @param s the new passive
+	 */
 	public void setPassive(ServerSocket s) {
 		this.passive = s;
 	}
-	
+
+	/**
+	 * Gets the FtpData for the data transfers.
+	 *
+	 * @return the FtpData
+	 */
 	public FtpData getData() {
 		return data;
 	}
 
+	/**
+	 * Gets the FtpController.
+	 *
+	 * @return the controller
+	 */
 	public FtpController getController() {
 		return controller;
 	}
 
+	/**
+	 * Sets the filename to rename a file.
+	 *
+	 * @param name the new filename
+	 */
 	public void setFilename(String name) {
-		this.filename=name;
-		
+		this.filename = name;
+
 	}
 
+	/**
+	 * Gets the file name.
+	 *
+	 * @return the file name
+	 */
 	public String getFileName() {
 		return this.filename;
 	}
-	
+
+	/**
+	 * Gets the socket of the client.
+	 *
+	 * @return the socket
+	 */
 	public Socket getSocket() {
 		return this.client;
 	}
-	
 
 }
